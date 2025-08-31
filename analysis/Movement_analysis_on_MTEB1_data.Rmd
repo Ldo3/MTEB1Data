@@ -123,7 +123,6 @@ We will have some plots for the two tracks here. For the full gallary, please vi
 
 ```{r plot 2 track 1st, warning=FALSE}
 path_list = readRDS(here("data","CPLASS_MTEB1_1st.rds"))
-setwd("~/Documents/Prof Scott/MT EB1 Data/MTEB1Data/analysis")
 #######################
 motor = "MTEB1-1st" #change the name to the name of your data
 dist_max = c()
@@ -152,83 +151,82 @@ dashboard = plot_path_inferred_fill_in(path_list[[i]],xy_width,t_lim, motor, max
 ```
 
 ```{r visualize the output 1st, warning =FALSE}
-path_list = readRDS(here("data","CPLASS_MTEB1_1st.rds"))
-setwd("~/Documents/Prof Scott/MT EB1 Data/MTEB1Data/analysis")
-#######################
-# for REAL DATA use the lines below.
-file_list = c("MTEB1-1st")
-filestub = paste0("figures/Real",file_list[1])
-# infile = paste0(filestub,"_cplass.rds")
-outfile = paste0(filestub,"_gallery.pdf")
-# path_list = readRDS(infile)
+# path_list = readRDS(here("data","CPLASS_MTEB1_1st.rds"))
+# #######################
+# # for REAL DATA use the lines below.
+# file_list = c("MTEB1-1st")
+# filestub = paste0("figures/Real",file_list[1])
+# # infile = paste0(filestub,"_cplass.rds")
+# outfile = paste0(filestub,"_gallery.pdf")
+# # path_list = readRDS(infile)
+# # 
+# motor = "MTEB1-1st" #change the name to the name of your data
 # 
-motor = "MTEB1-1st" #change the name to the name of your data
-
-#######################
-# #for SIMULATED DATA use the lines below.
-# filestub = paste0("OFR Final/Sim",experiment_num,"_",theta$motor,"_",Hz,"Hz_cplass_",sp)
-# infile = paste0(filestub,".rds")
-# outfile = paste0(filestub,"_gallery_",sp,".pdf")
-# path_list = readRDS(infile)
+# #######################
+# # #for SIMULATED DATA use the lines below.
+# # filestub = paste0("OFR Final/Sim",experiment_num,"_",theta$motor,"_",Hz,"Hz_cplass_",sp)
+# # infile = paste0(filestub,".rds")
+# # outfile = paste0(filestub,"_gallery_",sp,".pdf")
+# # path_list = readRDS(infile)
+# # 
+# # if(theta$motor == "CKP"){
+# #     motor = "Base"
+# #   }else if(theta$motor == "kin1"){
+# #     motor = "Contrast"
+# #   }else if(theta$motor == "Mimic"){
+# #     motor = "Mimic"
+# # }
 # 
-# if(theta$motor == "CKP"){
-#     motor = "Base"
-#   }else if(theta$motor == "kin1"){
-#     motor = "Contrast"
-#   }else if(theta$motor == "Mimic"){
-#     motor = "Mimic"
+# 
+# pdf_output = TRUE
+# 
+# if (pdf_output == TRUE){
+#   pdf(outfile,onefile = TRUE,width=7,height=5)
 # }
-
-
-pdf_output = TRUE
-
-if (pdf_output == TRUE){
-  pdf(outfile,onefile = TRUE,width=7,height=5)
-}
-
-dist_max = c()
-t_max = c()
-speed_max = c()
-
-for (i in 1:length(path_list)){
-  if (i %% 20 == 0){
-    print(paste("Working on path",i))
-  }
-  path = path_list[[i]]$path_inferred
-  segments = path_list[[i]]$segments_inferred
-  speed_max = c(speed_max,max(path_list[[i]]$segments_inferred$speeds))
-  
-  dist_max = c(dist_max,max(c(max(path$x)-min(path$x)),
-                            max((path$y)-min(path$y))))
-  t_max = c(t_max,max(path$t) - min(path$t))
-}
-xy_width = 1.2*max(dist_max)
-# t_lim = c(0,ceiling(max(t_max)))
-t_lim = c(0,150)
-max_speed = ceiling(max(speed_max))
-
-for (i in 1:length(path_list)){
-  if (i %% 20 == 0){
-    print(paste("Working on path",i))
-  }
-  
-  # #REAL DATA PLOTS (dashboard)
-  # dashboard = plot_path_real(path_list[[i]],xy_width,t_lim)
-  # print(dashboard)
-
-  # SIMULATION PLOTS (dashboard)
-  dashboard = plot_path_inferred_fill_in(path_list[[i]],xy_width,t_lim, motor, max_speed, branch_points = branch_points)
-  print(dashboard)
-
-  # SIMULATION PLOTS (only x-y plot)
-  # plot_xy = plot_path_inferred_xy(path_list[[i]],xy_width,t_lim, motor, max_speed)
-  # print(plot_xy)
-  
-}
-
-if (pdf_output == TRUE){
-  dev.off()
-}
+# 
+# dist_max = c()
+# t_max = c()
+# speed_max = c()
+# 
+# for (i in 1:length(path_list)){
+#   if (i %% 20 == 0){
+#     print(paste("Working on path",i))
+#   }
+#   path = path_list[[i]]$path_inferred
+#   segments = path_list[[i]]$segments_inferred
+#   speed_max = c(speed_max,max(path_list[[i]]$segments_inferred$speeds))
+#   
+#   dist_max = c(dist_max,max(c(max(path$x)-min(path$x)),
+#                             max((path$y)-min(path$y))))
+#   t_max = c(t_max,max(path$t) - min(path$t))
+# }
+# xy_width = 1.2*max(dist_max)
+# # t_lim = c(0,ceiling(max(t_max)))
+# t_lim = c(0,150)
+# max_speed = ceiling(max(speed_max))
+# 
+# for (i in 1:length(path_list)){
+#   if (i %% 20 == 0){
+#     print(paste("Working on path",i))
+#   }
+#   
+#   # #REAL DATA PLOTS (dashboard)
+#   # dashboard = plot_path_real(path_list[[i]],xy_width,t_lim)
+#   # print(dashboard)
+# 
+#   # SIMULATION PLOTS (dashboard)
+#   dashboard = plot_path_inferred_fill_in(path_list[[i]],xy_width,t_lim, motor, max_speed, branch_points = branch_points)
+#   print(dashboard)
+# 
+#   # SIMULATION PLOTS (only x-y plot)
+#   # plot_xy = plot_path_inferred_xy(path_list[[i]],xy_width,t_lim, motor, max_speed)
+#   # print(plot_xy)
+#   
+# }
+# 
+# if (pdf_output == TRUE){
+#   dev.off()
+# }
 ```
 
 # 2. Second approach
@@ -306,7 +304,6 @@ We will have some plots for some tracks here. For the full gallary, please visit
 
 ```{r plot 2 track 2nd, warning=FALSE}
 path_list = readRDS(here("data","CPLASS_MTEB1_2nd.rds"))
-setwd("~/Documents/Prof Scott/MT EB1 Data/MTEB1Data/analysis")
 #######################
 # for REAL DATA use the lines below.
 file_list = c("MTEB1-2nd")
@@ -342,83 +339,82 @@ dashboard = plot_path_inferred_fill_in(path_list[[i]],xy_width,t_lim, motor, max
 ```
 
 ```{r visualize the output 2nd, warning =FALSE}
-path_list = readRDS(here("data","CPLASS_MTEB1_2nd.rds"))
-setwd("~/Documents/Prof Scott/MT EB1 Data/MTEB1Data/analysis")
-#######################
-# for REAL DATA use the lines below.
-file_list = c("MTEB1-2nd")
-filestub = paste0("figures/Real",file_list[1])
-# infile = paste0(filestub,"_cplass.rds")
-outfile = paste0(filestub,"_gallery.pdf")
-# path_list = readRDS(infile)
+# path_list = readRDS(here("data","CPLASS_MTEB1_2nd.rds"))
+# #######################
+# # for REAL DATA use the lines below.
+# file_list = c("MTEB1-2nd")
+# filestub = paste0("figures/Real",file_list[1])
+# # infile = paste0(filestub,"_cplass.rds")
+# outfile = paste0(filestub,"_gallery.pdf")
+# # path_list = readRDS(infile)
+# # 
+# motor = "MTEB1-2nd" #change the name to the name of your data
 # 
-motor = "MTEB1-2nd" #change the name to the name of your data
-
-#######################
-# #for SIMULATED DATA use the lines below.
-# filestub = paste0("OFR Final/Sim",experiment_num,"_",theta$motor,"_",Hz,"Hz_cplass_",sp)
-# infile = paste0(filestub,".rds")
-# outfile = paste0(filestub,"_gallery_",sp,".pdf")
-# path_list = readRDS(infile)
+# #######################
+# # #for SIMULATED DATA use the lines below.
+# # filestub = paste0("OFR Final/Sim",experiment_num,"_",theta$motor,"_",Hz,"Hz_cplass_",sp)
+# # infile = paste0(filestub,".rds")
+# # outfile = paste0(filestub,"_gallery_",sp,".pdf")
+# # path_list = readRDS(infile)
+# # 
+# # if(theta$motor == "CKP"){
+# #     motor = "Base"
+# #   }else if(theta$motor == "kin1"){
+# #     motor = "Contrast"
+# #   }else if(theta$motor == "Mimic"){
+# #     motor = "Mimic"
+# # }
 # 
-# if(theta$motor == "CKP"){
-#     motor = "Base"
-#   }else if(theta$motor == "kin1"){
-#     motor = "Contrast"
-#   }else if(theta$motor == "Mimic"){
-#     motor = "Mimic"
+# 
+# pdf_output = TRUE
+# 
+# if (pdf_output == TRUE){
+#   pdf(outfile,onefile = TRUE,width=7,height=5)
 # }
-
-
-pdf_output = TRUE
-
-if (pdf_output == TRUE){
-  pdf(outfile,onefile = TRUE,width=7,height=5)
-}
-
-dist_max = c()
-t_max = c()
-speed_max = c()
-
-for (i in 1:length(path_list)){
-  if (i %% 20 == 0){
-    print(paste("Working on path",i))
-  }
-  path = path_list[[i]]$path_inferred
-  segments = path_list[[i]]$segments_inferred
-  speed_max = c(speed_max,max(path_list[[i]]$segments_inferred$speeds))
-  
-  dist_max = c(dist_max,max(c(max(path$x)-min(path$x)),
-                            max((path$y)-min(path$y))))
-  t_max = c(t_max,max(path$t) - min(path$t))
-}
-xy_width = 1.2*max(dist_max)
-# t_lim = c(0,ceiling(max(t_max)))
-t_lim = c(0,150)
-max_speed = ceiling(max(speed_max))
-
-for (i in 1:length(path_list)){
-  if (i %% 20 == 0){
-    print(paste("Working on path",i))
-  }
-  
-  # #REAL DATA PLOTS (dashboard)
-  # dashboard = plot_path_real(path_list[[i]],xy_width,t_lim)
-  # print(dashboard)
-
-  # SIMULATION PLOTS (dashboard)
-  dashboard = plot_path_inferred_fill_in(path_list[[i]],xy_width,t_lim, motor, max_speed, branch_points = branch_points)
-  print(dashboard)
-
-  # SIMULATION PLOTS (only x-y plot)
-  # plot_xy = plot_path_inferred_xy(path_list[[i]],xy_width,t_lim, motor, max_speed)
-  # print(plot_xy)
-  
-}
-
-if (pdf_output == TRUE){
-  dev.off()
-}
+# 
+# dist_max = c()
+# t_max = c()
+# speed_max = c()
+# 
+# for (i in 1:length(path_list)){
+#   if (i %% 20 == 0){
+#     print(paste("Working on path",i))
+#   }
+#   path = path_list[[i]]$path_inferred
+#   segments = path_list[[i]]$segments_inferred
+#   speed_max = c(speed_max,max(path_list[[i]]$segments_inferred$speeds))
+#   
+#   dist_max = c(dist_max,max(c(max(path$x)-min(path$x)),
+#                             max((path$y)-min(path$y))))
+#   t_max = c(t_max,max(path$t) - min(path$t))
+# }
+# xy_width = 1.2*max(dist_max)
+# # t_lim = c(0,ceiling(max(t_max)))
+# t_lim = c(0,150)
+# max_speed = ceiling(max(speed_max))
+# 
+# for (i in 1:length(path_list)){
+#   if (i %% 20 == 0){
+#     print(paste("Working on path",i))
+#   }
+#   
+#   # #REAL DATA PLOTS (dashboard)
+#   # dashboard = plot_path_real(path_list[[i]],xy_width,t_lim)
+#   # print(dashboard)
+# 
+#   # SIMULATION PLOTS (dashboard)
+#   dashboard = plot_path_inferred_fill_in(path_list[[i]],xy_width,t_lim, motor, max_speed, branch_points = branch_points)
+#   print(dashboard)
+# 
+#   # SIMULATION PLOTS (only x-y plot)
+#   # plot_xy = plot_path_inferred_xy(path_list[[i]],xy_width,t_lim, motor, max_speed)
+#   # print(plot_xy)
+#   
+# }
+# 
+# if (pdf_output == TRUE){
+#   dev.off()
+# }
 ```
 
 # Run CSA for both approaches
