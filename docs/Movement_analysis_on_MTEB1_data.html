@@ -541,13 +541,13 @@ analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstronge8d611f">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongf71b1fa">
 <span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>Repository version:</strong> e8d611f
+aria-hidden="true"></span> <strong>Repository version:</strong> f71b1fa
 </a>
 </p>
 </div>
-<div id="strongRepositoryversionstronge8d611f"
+<div id="strongRepositoryversionstrongf71b1fa"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -556,7 +556,7 @@ and connecting the code version to the results is critical for
 reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version e8d611f.
+The results in this page were generated with repository version f71b1fa.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -648,6 +648,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+f71b1fa
+</td>
+<td>
+Ldo3
+</td>
+<td>
+2025-08-31
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -793,7 +810,82 @@ for (i in c(1,6))
 dashboard = plot_path_inferred_fill_in(path_list[[i]],xy_width,t_lim, motor, max_speed, branch_points = branch_points)
   print(dashboard)
 }</code></pre>
-<p><img src="figure/Movement_analysis_on_MTEB1_data.Rmd/plot%202%20track%201st-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/Movement_analysis_on_MTEB1_data.Rmd/plot%202%20track%201st-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/Movement_analysis_on_MTEB1_data.Rmd/plot%202%20track%201st-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-plot-2-track-1st-1">
+Past versions of "plot 2 track 1st-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-plot-2-track-1st-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+f71b1fa
+</td>
+<td>
+Ldo3
+</td>
+<td>
+2025-08-31
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/Movement_analysis_on_MTEB1_data.Rmd/plot%202%20track%201st-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-plot-2-track-1st-2">
+Past versions of "plot 2 track 1st-2.png"
+</button>
+</p>
+<div id="fig-no-spaces-plot-2-track-1st-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+f71b1fa
+</td>
+<td>
+Ldo3
+</td>
+<td>
+2025-08-31
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>path_list = readRDS(here(&quot;data&quot;,&quot;CPLASS_MTEB1_1st.rds&quot;))
 setwd(&quot;~/Documents/Prof Scott/MT EB1 Data/MTEB1Data/analysis&quot;)
 #######################
@@ -918,8 +1010,45 @@ plot(g,
      edge.color = &quot;darkred&quot;,    # change edge color
      edge.arrow.size = 1,     # make arrows bigger
      layout = layout_with_fr)</code></pre>
-<p><img src="figure/Movement_analysis_on_MTEB1_data.Rmd/merged%20chains-1.png" width="672" style="display: block; margin: auto;" />
-There are missing time steps, we need to fill in those missing</p>
+<p><img src="figure/Movement_analysis_on_MTEB1_data.Rmd/merged%20chains-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-merged-chains-1">
+Past versions of "merged chains-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-merged-chains-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+f71b1fa
+</td>
+<td>
+Ldo3
+</td>
+<td>
+2025-08-31
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>There are missing time steps, we need to fill in those missing</p>
 <pre class="r"><code>af = list() #after fill-in
 for (i in 1:length(oam))
 {
@@ -982,7 +1111,158 @@ for (i in c(1,3,5,10))
 dashboard = plot_path_inferred_fill_in(path_list[[i]],xy_width,t_lim, motor, max_speed, branch_points = branch_points)
   print(dashboard)
 }</code></pre>
-<p><img src="figure/Movement_analysis_on_MTEB1_data.Rmd/plot%202%20track%202nd-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/Movement_analysis_on_MTEB1_data.Rmd/plot%202%20track%202nd-2.png" width="672" style="display: block; margin: auto;" /><img src="figure/Movement_analysis_on_MTEB1_data.Rmd/plot%202%20track%202nd-3.png" width="672" style="display: block; margin: auto;" /><img src="figure/Movement_analysis_on_MTEB1_data.Rmd/plot%202%20track%202nd-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/Movement_analysis_on_MTEB1_data.Rmd/plot%202%20track%202nd-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-plot-2-track-2nd-1">
+Past versions of "plot 2 track 2nd-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-plot-2-track-2nd-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+f71b1fa
+</td>
+<td>
+Ldo3
+</td>
+<td>
+2025-08-31
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/Movement_analysis_on_MTEB1_data.Rmd/plot%202%20track%202nd-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-plot-2-track-2nd-2">
+Past versions of "plot 2 track 2nd-2.png"
+</button>
+</p>
+<div id="fig-no-spaces-plot-2-track-2nd-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+f71b1fa
+</td>
+<td>
+Ldo3
+</td>
+<td>
+2025-08-31
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/Movement_analysis_on_MTEB1_data.Rmd/plot%202%20track%202nd-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-plot-2-track-2nd-3">
+Past versions of "plot 2 track 2nd-3.png"
+</button>
+</p>
+<div id="fig-no-spaces-plot-2-track-2nd-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+f71b1fa
+</td>
+<td>
+Ldo3
+</td>
+<td>
+2025-08-31
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/Movement_analysis_on_MTEB1_data.Rmd/plot%202%20track%202nd-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-plot-2-track-2nd-4">
+Past versions of "plot 2 track 2nd-4.png"
+</button>
+</p>
+<div id="fig-no-spaces-plot-2-track-2nd-4" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+f71b1fa
+</td>
+<td>
+Ldo3
+</td>
+<td>
+2025-08-31
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>path_list = readRDS(here(&quot;data&quot;,&quot;CPLASS_MTEB1_2nd.rds&quot;))
 setwd(&quot;~/Documents/Prof Scott/MT EB1 Data/MTEB1Data/analysis&quot;)
 #######################
@@ -1158,6 +1438,43 @@ p_csa = ggplot(csa %&gt;% filter(label == cohort_list[1] |
 
 print(p_csa)</code></pre>
 <p><img src="figure/Movement_analysis_on_MTEB1_data.Rmd/FIGURE:%20CSA%20Theory-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-FIGURE:-CSA-Theory-1">
+Past versions of "FIGURE: CSA Theory-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-FIGURE:-CSA-Theory-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+f71b1fa
+</td>
+<td>
+Ldo3
+</td>
+<td>
+2025-08-31
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>speed_df1 = segment_summary%&gt;% filter(label==&quot;MTEB1: 1st approach&quot;)
 speed_df2 = segment_summary%&gt;% filter(label==&quot;MTEB1: 2nd approach&quot;)
 
@@ -1180,6 +1497,44 @@ print(&quot;The highest speed value in the first approach is&quot;)</code></pre>
   labs(title = &quot;KDE of inferred speed in different approaches&quot;, x = &quot;Speed (mu/s)&quot;, y = &quot;Density&quot;) +
   theme_minimal()</code></pre>
 <p><img src="figure/Movement_analysis_on_MTEB1_data.Rmd/kernel%20density%20estimation%20-%20speed%20distribution-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-kernel-density-estimation---speed-distribution-1">
+Past versions of "kernel density estimation - speed distribution-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-kernel-density-estimation---speed-distribution-1"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+f71b1fa
+</td>
+<td>
+Ldo3
+</td>
+<td>
+2025-08-31
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>From the CSA plot, the second approach provide more segments will
 speed between 0 -5 <span class="math inline">\(\mu m/s\)</span> than in
 the first approach.</p>
