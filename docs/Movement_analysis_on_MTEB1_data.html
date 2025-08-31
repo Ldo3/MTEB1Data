@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Movement analysis on MTEB1_data</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Movement analysis on the MTEB1 Data</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Overview</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Movement analysis on MTEB1_data</h1>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2025-08-31
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>MTEB1Data/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.2). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20250829code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20250829)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20250829code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20250829)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongabsolute">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>File paths:</strong> absolute </a>
+</p>
+</div>
+<div id="strongFilepathsstrongabsolute" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Using absolute paths to the files within your workflowr project makes it
+difficult for you and others to run your code on a different machine.
+Change the absolute path(s) below to the suggested relative path(s) to
+make your code more reproducible.
+</p>
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th style="text-align:left;">
+absolute
+</th>
+<th style="text-align:left;">
+relative
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+~/Documents/Prof Scott/MT EB1 Data/MTEB1Data/analysis
+</td>
+<td style="text-align:left;">
+analysis
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstronge8d611f">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong> e8d611f
+</a>
+</p>
+</div>
+<div id="strongRepositoryversionstronge8d611f"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version e8d611f.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    analysis/.DS_Store
+    Ignored:    data/.DS_Store
+
+Untracked files:
+    Untracked:  analysis/Introduction_to_CPLASS.Rmd
+    Untracked:  analysis/figures/
+    Untracked:  analysis/new_processed_stack.tif
+    Untracked:  analysis/processed_stack.tif
+    Untracked:  code/CPLASS.R
+    Untracked:  code/Fill_missing_data.R
+    Untracked:  code/PENALTY.R
+    Untracked:  code/csa_functions.R
+    Untracked:  code/msd_functions.R
+    Untracked:  code/plot_functions.R
+    Untracked:  code/postprocess.R
+    Untracked:  data/CPLASS_MTEB1_1st.rds
+    Untracked:  data/CPLASS_MTEB1_2nd.rds
+    Untracked:  data/branch_points.csv
+    Untracked:  data/branch_points.png
+    Untracked:  data/first_approach_data.rds
+    Untracked:  data/microtubles.png
+    Untracked:  data/original_tracks_after_merging.rds
+    Untracked:  data/processed_spots.csv
+    Untracked:  data/second_approach_data.rds
+    Untracked:  data/tracked_blobs.csv
+    Untracked:  data/tracks_after_fill_in_missing_previous_method.rds
+
+Unstaged changes:
+    Modified:   analysis/_site.yml
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+These are the previous versions of the repository in which changes were
+made to the R Markdown
+(<code>analysis/Movement_analysis_on_MTEB1_data.Rmd</code>) and HTML
+(<code>docs/Movement_analysis_on_MTEB1_data.html</code>) files. If
+you’ve configured a remote Git repository (see
+<code>?wflow_git_remote</code>), click on the hyperlinks in the table
+below to view the files as they were in that past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+e8d611f
+</td>
+<td>
+Ldo3
+</td>
+<td>
+2025-08-31
+</td>
+<td>
+wflow_publish(c("index.Rmd", "Movement_analysis_on_MTEB1_data.Rmd"))
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<p>After preprocessing the video and run TrackMate on ImageJ to get the
+tracks and <code>.csv</code> files on the positions of branch points and
+positions of tracked points, we run analysis on these collected
+information to study the movement of things on the microtuble.</p>
+<ul>
+<li><p>Run CPLASS algorithm to get the segmented paths.</p></li>
+<li><p>Run CSA algorithm to learn on distribution of inferred
+speeds.</p></li>
+</ul>
+<p><em>Note</em> The output from TrackMate contains lot of tracks. We
+notice an issue that some tracks may be accidently splited in small
+tracks due to the difficulty in observing the movement of materials on
+the microtubles, i.e., some blobs disappear for a while then appear
+again. This issue also leads to missing data points.</p>
+<p>There are two approaches that we want to note in this report.</p>
+<ul>
+<li><p>First approach: Keep all the tracks output from
+TrackMate</p></li>
+<li><p>Second approach: Use a merging rule to merge the tracks that are
+close to each other.</p></li>
+</ul>
+<p>For both approaches, the analysis procedure is</p>
+<ul>
+<li><p>Run segmentation algorithm CPLASS to get the segmented path,
+inferred speed and time.</p></li>
+<li><p>Run CSA algorithm to get the speed analysis.</p></li>
+</ul>
+<p>Here is the data after running TrackMate/ImageJ</p>
+<pre class="r"><code>data &lt;- read_csv(here(&quot;data&quot;,&quot;processed_spots.csv&quot;))
+df = data %&gt;% select(ID,TRACK_ID, POSITION_X, POSITION_Y, POSITION_T)
+df &lt;- df[-c(1:3), ]
+df[] &lt;- lapply(df, as.numeric)
+head(df)</code></pre>
+<pre><code># A tibble: 6 × 5
+     ID TRACK_ID POSITION_X POSITION_Y POSITION_T
+  &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;
+1 93569        0       612.       176.          2
+2 93505        0       616.       175.          0
+3 95109        0       582.       178.         25
+4 97733        0       534.       218.         66
+5 97412        0       534.       209.         61
+6 93639        0       611.       176.          3</code></pre>
+<pre class="r"><code>branch_points &lt;- read_csv(here(&quot;data&quot;,&quot;branch_points.csv&quot;), 
+    col_types = cols(x = col_number(), y = col_number()))</code></pre>
+<div id="first-approach" class="section level1">
+<h1>1. First approach</h1>
+<pre class="r"><code>first = list()
+list_tracks = unique(df$TRACK_ID)
+for (i in 1:length(unique(df$TRACK_ID)))
+{
+
+  subdf = df %&gt;% filter(TRACK_ID == list_tracks[i])
+
+# sort by POSITION_T
+subdf = subdf %&gt;% arrange(POSITION_T)
+
+first[[i]] = list(
+  t = subdf$POSITION_T,
+  x = subdf$POSITION_X,
+  y = subdf$POSITION_Y,
+  track_id = subdf$TRACK_ID
+)
+
+}
+
+af_first = list()
+for(i in 1:length(first))
+{
+  path = first[[i]]
+  t = path$t
+  x = path$x
+  y = path$y
+  track_id = path$track_id
+  af_first[[i]] = fill_missing_data(t,x,y, unique(track_id))
+}
+# saveRDS(af_first,here(&quot;data&quot;,&quot;first_approach_data.rds&quot;))</code></pre>
+<div id="run-cplass-to-get-segmented-paths" class="section level2">
+<h2>1.1. Run CPLASS to get segmented paths</h2>
+<pre class="r"><code># cplass_paths = CPLASS_paths(af_first, time_rate = 1,iter_max = 4000, PARALLEL = FALSE, speed_pen = FALSE)
+# saveRDS(cplass_paths,file=&quot;data/CPLASS_MTEB1_1st.rds&quot;)</code></pre>
+</div>
+<div id="visualization" class="section level2">
+<h2>1.2. Visualization</h2>
+<p>We will have some plots for the two tracks here. For the full
+gallary, please visit <code>analysis/figures</code>.</p>
+<p><em>Note</em>:</p>
+<ul>
+<li><p>the black dashed-lines are for detected changepoint
+times.</p></li>
+<li><p>The triangle blue dots are for the branch points.</p></li>
+<li><p>The red dots are for the fill-in position.</p></li>
+<li><p>The green areas show the motile segments while the pink areas
+show the stationary segments.</p></li>
+</ul>
+<pre class="r"><code>path_list = readRDS(here(&quot;data&quot;,&quot;CPLASS_MTEB1_1st.rds&quot;))
+setwd(&quot;~/Documents/Prof Scott/MT EB1 Data/MTEB1Data/analysis&quot;)
+#######################
+motor = &quot;MTEB1-1st&quot; #change the name to the name of your data
+dist_max = c()
+t_max = c()
+speed_max = c()
+
+for (i in c(1,6)){
+  path = path_list[[i]]$path_inferred
+  segments = path_list[[i]]$segments_inferred
+  speed_max = c(speed_max,max(path_list[[i]]$segments_inferred$speeds))
+  
+  dist_max = c(dist_max,max(c(max(path$x)-min(path$x)),
+                            max((path$y)-min(path$y))))
+  t_max = c(t_max,max(path$t) - min(path$t))
+}
+xy_width = 1.2*max(dist_max)
+# t_lim = c(0,ceiling(max(t_max)))
+t_lim = c(0,150)
+max_speed = ceiling(max(speed_max))
+
+for (i in c(1,6))
+{
+dashboard = plot_path_inferred_fill_in(path_list[[i]],xy_width,t_lim, motor, max_speed, branch_points = branch_points)
+  print(dashboard)
+}</code></pre>
+<p><img src="figure/Movement_analysis_on_MTEB1_data.Rmd/plot%202%20track%201st-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/Movement_analysis_on_MTEB1_data.Rmd/plot%202%20track%201st-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>path_list = readRDS(here(&quot;data&quot;,&quot;CPLASS_MTEB1_1st.rds&quot;))
+setwd(&quot;~/Documents/Prof Scott/MT EB1 Data/MTEB1Data/analysis&quot;)
+#######################
+# for REAL DATA use the lines below.
+file_list = c(&quot;MTEB1-1st&quot;)
+filestub = paste0(&quot;figures/Real&quot;,file_list[1])
+# infile = paste0(filestub,&quot;_cplass.rds&quot;)
+outfile = paste0(filestub,&quot;_gallery.pdf&quot;)
+# path_list = readRDS(infile)
+# 
+motor = &quot;MTEB1-1st&quot; #change the name to the name of your data
+
+#######################
+# #for SIMULATED DATA use the lines below.
+# filestub = paste0(&quot;OFR Final/Sim&quot;,experiment_num,&quot;_&quot;,theta$motor,&quot;_&quot;,Hz,&quot;Hz_cplass_&quot;,sp)
+# infile = paste0(filestub,&quot;.rds&quot;)
+# outfile = paste0(filestub,&quot;_gallery_&quot;,sp,&quot;.pdf&quot;)
+# path_list = readRDS(infile)
+# 
+# if(theta$motor == &quot;CKP&quot;){
+#     motor = &quot;Base&quot;
+#   }else if(theta$motor == &quot;kin1&quot;){
+#     motor = &quot;Contrast&quot;
+#   }else if(theta$motor == &quot;Mimic&quot;){
+#     motor = &quot;Mimic&quot;
+# }
+
+
+pdf_output = TRUE
+
+if (pdf_output == TRUE){
+  pdf(outfile,onefile = TRUE,width=7,height=5)
+}
+
+dist_max = c()
+t_max = c()
+speed_max = c()
+
+for (i in 1:length(path_list)){
+  if (i %% 20 == 0){
+    print(paste(&quot;Working on path&quot;,i))
+  }
+  path = path_list[[i]]$path_inferred
+  segments = path_list[[i]]$segments_inferred
+  speed_max = c(speed_max,max(path_list[[i]]$segments_inferred$speeds))
+  
+  dist_max = c(dist_max,max(c(max(path$x)-min(path$x)),
+                            max((path$y)-min(path$y))))
+  t_max = c(t_max,max(path$t) - min(path$t))
+}</code></pre>
+<pre><code>[1] &quot;Working on path 20&quot;</code></pre>
+<pre class="r"><code>xy_width = 1.2*max(dist_max)
+# t_lim = c(0,ceiling(max(t_max)))
+t_lim = c(0,150)
+max_speed = ceiling(max(speed_max))
+
+for (i in 1:length(path_list)){
+  if (i %% 20 == 0){
+    print(paste(&quot;Working on path&quot;,i))
+  }
+  
+  # #REAL DATA PLOTS (dashboard)
+  # dashboard = plot_path_real(path_list[[i]],xy_width,t_lim)
+  # print(dashboard)
+
+  # SIMULATION PLOTS (dashboard)
+  dashboard = plot_path_inferred_fill_in(path_list[[i]],xy_width,t_lim, motor, max_speed, branch_points = branch_points)
+  print(dashboard)
+
+  # SIMULATION PLOTS (only x-y plot)
+  # plot_xy = plot_path_inferred_xy(path_list[[i]],xy_width,t_lim, motor, max_speed)
+  # print(plot_xy)
+  
+}</code></pre>
+<pre><code>[1] &quot;Working on path 20&quot;</code></pre>
+<pre class="r"><code>if (pdf_output == TRUE){
+  dev.off()
+}</code></pre>
+<pre><code>quartz_off_screen 
+                2 </code></pre>
+</div>
+</div>
+<div id="second-approach" class="section level1">
+<h1>2. Second approach</h1>
+<p>A path <span class="math inline">\(j\)</span> is considered as a
+potential candidate to merge to the <span
+class="math inline">\(i\)</span>th-path if: <span
+class="math inline">\(t_{end}\)</span> of <span
+class="math inline">\(i\)</span>th-path <span class="math inline">\(&lt;
+t_{start}\)</span> of <span class="math inline">\(j\)</span>th-path. For
+all potential candidates, calculate the Euclidean distance between the
+endpoint of path <span class="math inline">\(i\)</span> and the start
+point of path <span class="math inline">\(j\)</span>, i.e., <span
+class="math display">\[\sqrt{(x_{i_{end}}-x_{j_{start}})^2+(y_{i_{end}}-y_{j_{start}})^2}\]</span>
+Among those candidates, select the one with the minimum distance value.
+Return the final candidate to merge. In the final round, we look at the
+video to confirm which case looks like a good merge.</p>
+<p>With this strategy, we return 18 paths. The following shows the index
+of merged tracks corresponding to each path. For example, path 1 in this
+second approach is the output after merging TRACK 0 and TRACK 73.</p>
+<pre class="r"><code>oam = readRDS(here(&quot;data&quot;,&quot;original_tracks_after_merging.rds&quot;))
+chains = list()
+for (i in 1:length(oam))
+{
+  chains[[i]] = unique(oam[[i]]$TRACK_ID)
+}
+# Build edges from consecutive nodes in each chain
+edges &lt;- do.call(rbind, lapply(chains, function(chain) {
+  if (length(chain) &gt; 1) {
+    cbind(head(as.character(chain), -1),
+          tail(as.character(chain), -1))
+  } else NULL
+}))
+
+g &lt;- graph_from_edgelist(edges, directed = TRUE)
+
+plot(g,
+     vertex.size = 17,
+     vertex.label.cex = 1,
+     vertex.color = &quot;skyblue&quot;,
+     edge.width = 2,            # make edges thicker
+     edge.color = &quot;darkred&quot;,    # change edge color
+     edge.arrow.size = 1,     # make arrows bigger
+     layout = layout_with_fr)</code></pre>
+<p><img src="figure/Movement_analysis_on_MTEB1_data.Rmd/merged%20chains-1.png" width="672" style="display: block; margin: auto;" />
+There are missing time steps, we need to fill in those missing</p>
+<pre class="r"><code>af = list() #after fill-in
+for (i in 1:length(oam))
+{
+  t = oam[[i]]$POSITION_T
+  x = oam[[i]]$POSITION_X
+  y = oam[[i]]$POSITION_Y
+  track_id = unique(oam[[i]]$TRACK_ID)
+  af[[i]] = fill_missing_data(t,x,y,track_id = track_id)
+}
+# saveRDS(af,here(&quot;data&quot;,&quot;second_approach_data.rds&quot;))</code></pre>
+<div id="run-cplass" class="section level2">
+<h2>2.1. Run CPLASS</h2>
+<pre class="r"><code># cplass_paths = CPLASS_paths(af, time_rate = 1,iter_max = 4000, PARALLEL = FALSE, speed_pen = FALSE)
+# saveRDS(cplass_paths,file=&quot;data/CPLASS_MTEB1_2nd.rds&quot;)</code></pre>
+</div>
+<div id="visualization-1" class="section level2">
+<h2>2.2. Visualization</h2>
+<p>We will have some plots for some tracks here. For the full gallary,
+please visit <code>analysis/figures</code>.</p>
+<p><em>Note</em>:</p>
+<ul>
+<li><p>the black dashed-lines are for detected changepoint
+times.</p></li>
+<li><p>The triangle blue dots are for the branch points.</p></li>
+<li><p>The red dots are for the fill-in position.</p></li>
+<li><p>The green areas show the motile segments while the pink areas
+show the stationary segments.</p></li>
+</ul>
+<pre class="r"><code>path_list = readRDS(here(&quot;data&quot;,&quot;CPLASS_MTEB1_2nd.rds&quot;))
+setwd(&quot;~/Documents/Prof Scott/MT EB1 Data/MTEB1Data/analysis&quot;)
+#######################
+# for REAL DATA use the lines below.
+file_list = c(&quot;MTEB1-2nd&quot;)
+filestub = paste0(&quot;figures/Real&quot;,file_list[1])
+# infile = paste0(filestub,&quot;_cplass.rds&quot;)
+outfile = paste0(filestub,&quot;_gallery.pdf&quot;)
+# path_list = readRDS(infile)
+# 
+motor = &quot;MTEB1-2nd&quot; #change the name to the name of your data
+dist_max = c()
+t_max = c()
+speed_max = c()
+
+for (i in c(1,3,5,10)){
+  path = path_list[[i]]$path_inferred
+  segments = path_list[[i]]$segments_inferred
+  speed_max = c(speed_max,max(path_list[[i]]$segments_inferred$speeds))
+  
+  dist_max = c(dist_max,max(c(max(path$x)-min(path$x)),
+                            max((path$y)-min(path$y))))
+  t_max = c(t_max,max(path$t) - min(path$t))
+}
+xy_width = 1.2*max(dist_max)
+# t_lim = c(0,ceiling(max(t_max)))
+t_lim = c(0,150)
+max_speed = ceiling(max(speed_max))
+
+for (i in c(1,3,5,10))
+{
+dashboard = plot_path_inferred_fill_in(path_list[[i]],xy_width,t_lim, motor, max_speed, branch_points = branch_points)
+  print(dashboard)
+}</code></pre>
+<p><img src="figure/Movement_analysis_on_MTEB1_data.Rmd/plot%202%20track%202nd-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/Movement_analysis_on_MTEB1_data.Rmd/plot%202%20track%202nd-2.png" width="672" style="display: block; margin: auto;" /><img src="figure/Movement_analysis_on_MTEB1_data.Rmd/plot%202%20track%202nd-3.png" width="672" style="display: block; margin: auto;" /><img src="figure/Movement_analysis_on_MTEB1_data.Rmd/plot%202%20track%202nd-4.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>path_list = readRDS(here(&quot;data&quot;,&quot;CPLASS_MTEB1_2nd.rds&quot;))
+setwd(&quot;~/Documents/Prof Scott/MT EB1 Data/MTEB1Data/analysis&quot;)
+#######################
+# for REAL DATA use the lines below.
+file_list = c(&quot;MTEB1-2nd&quot;)
+filestub = paste0(&quot;figures/Real&quot;,file_list[1])
+# infile = paste0(filestub,&quot;_cplass.rds&quot;)
+outfile = paste0(filestub,&quot;_gallery.pdf&quot;)
+# path_list = readRDS(infile)
+# 
+motor = &quot;MTEB1-2nd&quot; #change the name to the name of your data
+
+#######################
+# #for SIMULATED DATA use the lines below.
+# filestub = paste0(&quot;OFR Final/Sim&quot;,experiment_num,&quot;_&quot;,theta$motor,&quot;_&quot;,Hz,&quot;Hz_cplass_&quot;,sp)
+# infile = paste0(filestub,&quot;.rds&quot;)
+# outfile = paste0(filestub,&quot;_gallery_&quot;,sp,&quot;.pdf&quot;)
+# path_list = readRDS(infile)
+# 
+# if(theta$motor == &quot;CKP&quot;){
+#     motor = &quot;Base&quot;
+#   }else if(theta$motor == &quot;kin1&quot;){
+#     motor = &quot;Contrast&quot;
+#   }else if(theta$motor == &quot;Mimic&quot;){
+#     motor = &quot;Mimic&quot;
+# }
+
+
+pdf_output = TRUE
+
+if (pdf_output == TRUE){
+  pdf(outfile,onefile = TRUE,width=7,height=5)
+}
+
+dist_max = c()
+t_max = c()
+speed_max = c()
+
+for (i in 1:length(path_list)){
+  if (i %% 20 == 0){
+    print(paste(&quot;Working on path&quot;,i))
+  }
+  path = path_list[[i]]$path_inferred
+  segments = path_list[[i]]$segments_inferred
+  speed_max = c(speed_max,max(path_list[[i]]$segments_inferred$speeds))
+  
+  dist_max = c(dist_max,max(c(max(path$x)-min(path$x)),
+                            max((path$y)-min(path$y))))
+  t_max = c(t_max,max(path$t) - min(path$t))
+}
+xy_width = 1.2*max(dist_max)
+# t_lim = c(0,ceiling(max(t_max)))
+t_lim = c(0,150)
+max_speed = ceiling(max(speed_max))
+
+for (i in 1:length(path_list)){
+  if (i %% 20 == 0){
+    print(paste(&quot;Working on path&quot;,i))
+  }
+  
+  # #REAL DATA PLOTS (dashboard)
+  # dashboard = plot_path_real(path_list[[i]],xy_width,t_lim)
+  # print(dashboard)
+
+  # SIMULATION PLOTS (dashboard)
+  dashboard = plot_path_inferred_fill_in(path_list[[i]],xy_width,t_lim, motor, max_speed, branch_points = branch_points)
+  print(dashboard)
+
+  # SIMULATION PLOTS (only x-y plot)
+  # plot_xy = plot_path_inferred_xy(path_list[[i]],xy_width,t_lim, motor, max_speed)
+  # print(plot_xy)
+  
+}
+
+if (pdf_output == TRUE){
+  dev.off()
+}</code></pre>
+<pre><code>quartz_off_screen 
+                2 </code></pre>
+</div>
+</div>
+<div id="run-csa-for-both-approaches" class="section level1">
+<h1>Run CSA for both approaches</h1>
+<pre class="r"><code>pdf_output = TRUE
+
+real_data_not_merged_file = c(here(&quot;data&quot;,&quot;CPLASS_MTEB1_1st.rds&quot;))
+real_data_merged_file = c(here(&quot;data&quot;,&quot;CPLASS_MTEB1_2nd.rds&quot;))
+
+real_path_not_merged_list = readRDS(real_data_not_merged_file)
+real_path_merged_list = readRDS(real_data_merged_file)
+
+
+cohort_list = c(&quot;MTEB1: 1st approach&quot;, 
+                &quot;MTEB1: 2nd approach&quot;)
+color_list = c(&quot;MTEB1: 1st approach&quot; = &quot;grey&quot;, 
+               &quot;MTEB1: 2nd approach&quot; = &quot;lightblue&quot;) 
+
+pdf_output = TRUE
+
+
+##### Create Segment Summary ####
+segment_summary = summarize_segments_inferred(real_path_not_merged_list,cohort_list[1])
+segment_summary = bind_rows(segment_summary,
+                            summarize_segments(real_path_merged_list,cohort_list[2]))
+
+max_speed = min(15,max(segment_summary$speeds))
+
+# Assumes theta is the same for all frame rates involved
+speed_mesh = seq(0,max_speed,length = 200)
+ds = speed_mesh[2] - speed_mesh[1]
+subsample_size = 200
+num_subsamples = 30
+
+csa = tibble()
+#### Bootstrap CSA for Real Data 1st approach ####
+for (m in 1:num_subsamples){
+    subsample = sample(1:length(real_path_not_merged_list),subsample_size,replace = TRUE)
+    path_subsample = list()
+    for (i in 1:length(subsample)){
+      path_subsample[[i]] = real_path_not_merged_list[[subsample[i]]]
+    }
+    this_segments_summary = summarize_segments_inferred(path_subsample,&quot;Sample&quot;)
+    this_csa = compute_csa(this_segments_summary, speed_mesh)$csa
+    csa = bind_rows(csa,
+                tibble(
+                  s = speed_mesh,
+                  csa = this_csa,
+                  dcsa = c(diff(this_csa)/ds,0),
+                  error = NA,
+                  error_pct = NA,
+                  label = cohort_list[1],
+                  Hz = NA,
+                  subsample = m
+                ))
+}
+
+
+#### Bootstrap CSA for Real Data 2nd approach ####
+for (m in 1:num_subsamples){
+    subsample = sample(1:length(real_path_merged_list),subsample_size,replace = TRUE)
+    path_subsample = list()
+    for (i in 1:length(subsample)){
+      path_subsample[[i]] = real_path_merged_list[[subsample[i]]]
+    }
+    this_segments_summary = summarize_segments_inferred(path_subsample,&quot;Sample&quot;)
+    this_csa = compute_csa(this_segments_summary, speed_mesh)$csa
+    csa = bind_rows(csa,
+                tibble(
+                  s = speed_mesh,
+                  csa = this_csa,
+                  dcsa = c(diff(this_csa)/ds,0),
+                  error = NA,
+                  error_pct = NA,
+                  label = cohort_list[2],
+                  Hz = NA,
+                  subsample = m
+                ))
+}
+
+
+csa = csa %&gt;% mutate(cohort = paste(label,subsample))
+
+
+p_csa = ggplot(csa %&gt;% filter(label == cohort_list[1] | 
+                                      label == cohort_list[2]))+
+  geom_line(aes(x = s, y = csa, col = label, group = cohort))+
+  ggtitle(&quot;MTEB1&quot;)+
+  ylab(&quot;Cumulative Speed Allocation&quot;)+xlab(expression(paste(&quot;Speed (&quot;,mu,&quot;m/sec)&quot;)))+
+  scale_color_manual(values = color_list)+
+  theme_minimal()
+# +
+  # theme(legend.position = &quot;none&quot;)
+
+print(p_csa)</code></pre>
+<p><img src="figure/Movement_analysis_on_MTEB1_data.Rmd/FIGURE:%20CSA%20Theory-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>speed_df1 = segment_summary%&gt;% filter(label==&quot;MTEB1: 1st approach&quot;)
+speed_df2 = segment_summary%&gt;% filter(label==&quot;MTEB1: 2nd approach&quot;)
+
+print(&quot;The highest speed value in the first approach is&quot;)</code></pre>
+<pre><code>[1] &quot;The highest speed value in the first approach is&quot;</code></pre>
+<pre class="r"><code>speed_df1%&gt;% filter(speeds ==max(speeds))</code></pre>
+<pre><code># A tibble: 1 × 5
+  durations states speeds label               path_id
+      &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;                 &lt;int&gt;
+1         1      1   28.4 MTEB1: 1st approach      34</code></pre>
+<pre class="r"><code>print(&quot;The highest speed value in the second approach is&quot;)</code></pre>
+<pre><code>[1] &quot;The highest speed value in the second approach is&quot;</code></pre>
+<pre class="r"><code>speed_df2%&gt;% filter(speeds ==max(speeds))</code></pre>
+<pre><code># A tibble: 1 × 5
+  durations states speeds label               path_id
+      &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;                 &lt;int&gt;
+1         1      1   30.8 MTEB1: 2nd approach       9</code></pre>
+<pre class="r"><code>ggplot(segment_summary, aes(x = speeds, fill = label)) +
+  geom_density(alpha = 0.4) +
+  labs(title = &quot;KDE of inferred speed in different approaches&quot;, x = &quot;Speed (mu/s)&quot;, y = &quot;Density&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="figure/Movement_analysis_on_MTEB1_data.Rmd/kernel%20density%20estimation%20-%20speed%20distribution-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>From the CSA plot, the second approach provide more segments will
+speed between 0 -5 <span class="math inline">\(\mu m/s\)</span> than in
+the first approach.</p>
+<p>Merged tracks in the second approach provide us clearer picture where
+a blob pass branch points, e.g., paths we plotted above.</p>
+<p>We also want to point out that CPLASS does not work well with too
+short path such as 10-20 time steps (see the plot gallery for the first
+approach), i.e., for too short path, the algorithm will detect a lot of
+changepoints. In the CPLASS, we discussed the consistency theory of
+CPLASS when we have the sample size is large enough.</p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.5.1 (2025-06-13)
+Platform: aarch64-apple-darwin20
+Running under: macOS Ventura 13.1
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRblas.0.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+time zone: America/Chicago
+tzcode source: internal
+
+attached base packages:
+[1] parallel  stats     graphics  grDevices utils     datasets  methods  
+[8] base     
+
+other attached packages:
+ [1] igraph_2.1.4      doParallel_1.0.17 iterators_1.0.14  foreach_1.5.2    
+ [5] patchwork_1.3.2   lubridate_1.9.4   forcats_1.0.0     stringr_1.5.1    
+ [9] dplyr_1.1.4       purrr_1.1.0       readr_2.1.5       tidyr_1.3.1      
+[13] tibble_3.3.0      ggplot2_3.5.2     tidyverse_2.0.0   limSolve_2.0.1   
+[17] pracma_2.4.4      matrixcalc_1.0-6  Rlab_4.0          here_1.0.1       
+
+loaded via a namespace (and not attached):
+ [1] gtable_0.3.6       xfun_0.53          bslib_0.9.0        tzdb_0.5.0        
+ [5] quadprog_1.5-8     vctrs_0.6.5        tools_4.5.1        generics_0.1.4    
+ [9] pkgconfig_2.0.3    RColorBrewer_1.1-3 lifecycle_1.0.4    compiler_4.5.1    
+[13] farver_2.1.2       git2r_0.36.2       codetools_0.2-20   httpuv_1.6.16     
+[17] htmltools_0.5.8.1  sass_0.4.10        yaml_2.3.10        crayon_1.5.3      
+[21] later_1.4.3        pillar_1.11.0      jquerylib_0.1.4    whisker_0.4.1     
+[25] MASS_7.3-65        cachem_1.1.0       tidyselect_1.2.1   digest_0.6.37     
+[29] stringi_1.8.7      labeling_0.4.3     rprojroot_2.1.1    fastmap_1.2.0     
+[33] grid_4.5.1         cli_3.6.5          magrittr_2.0.3     utf8_1.2.6        
+[37] withr_3.0.2        scales_1.4.0       promises_1.3.3     bit64_4.6.0-1     
+[41] timechange_0.3.0   rmarkdown_2.29     bit_4.6.0          workflowr_1.7.2   
+[45] hms_1.1.3          evaluate_1.0.4     lpSolve_5.6.23     knitr_1.50        
+[49] rlang_1.1.6        Rcpp_1.1.0         glue_1.8.0         rstudioapi_0.17.1 
+[53] vroom_1.6.5        jsonlite_2.0.0     R6_2.6.1           fs_1.6.6          </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
