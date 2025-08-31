@@ -363,7 +363,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+workflowr <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -374,8 +374,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> </a>
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -388,9 +388,9 @@ aria-hidden="true"></span> </a>
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 1
+aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>MTEB1Data/</code> <span
@@ -500,54 +500,28 @@ run.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongabsolute">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>File paths:</strong> absolute </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
 </p>
 </div>
-<div id="strongFilepathsstrongabsolute" class="panel-collapse collapse">
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
 <div class="panel-body">
-<p>
-Using absolute paths to the files within your workflowr project makes it
-difficult for you and others to run your code on a different machine.
-Change the absolute path(s) below to the suggested relative path(s) to
-make your code more reproducible.
-</p>
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th style="text-align:left;">
-absolute
-</th>
-<th style="text-align:left;">
-relative
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-~/Documents/Prof Scott/MT EB1 Data/MTEB1Data/analysis
-</td>
-<td style="text-align:left;">
-analysis
-</td>
-</tr>
-</tbody>
-</table>
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongf71b1fa">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong9449537">
 <span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>Repository version:</strong> f71b1fa
+aria-hidden="true"></span> <strong>Repository version:</strong> 9449537
 </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongf71b1fa"
+<div id="strongRepositoryversionstrong9449537"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -556,7 +530,7 @@ and connecting the code version to the results is critical for
 reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version f71b1fa.
+The results in this page were generated with repository version 9449537.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -648,6 +622,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+9449537
+</td>
+<td>
+Ldo3
+</td>
+<td>
+2025-08-31
+</td>
+<td>
+wflow_publish(c("index.Rmd", "Movement_analysis_on_MTEB1_data.Rmd"))
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+1471d42
+</td>
+<td>
+Ldo3
+</td>
+<td>
+2025-08-31
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -784,7 +792,6 @@ times.</p></li>
 show the stationary segments.</p></li>
 </ul>
 <pre class="r"><code>path_list = readRDS(here(&quot;data&quot;,&quot;CPLASS_MTEB1_1st.rds&quot;))
-setwd(&quot;~/Documents/Prof Scott/MT EB1 Data/MTEB1Data/analysis&quot;)
 #######################
 motor = &quot;MTEB1-1st&quot; #change the name to the name of your data
 dist_max = c()
@@ -886,86 +893,82 @@ Ldo3
 </table>
 </div>
 </div>
-<pre class="r"><code>path_list = readRDS(here(&quot;data&quot;,&quot;CPLASS_MTEB1_1st.rds&quot;))
-setwd(&quot;~/Documents/Prof Scott/MT EB1 Data/MTEB1Data/analysis&quot;)
-#######################
-# for REAL DATA use the lines below.
-file_list = c(&quot;MTEB1-1st&quot;)
-filestub = paste0(&quot;figures/Real&quot;,file_list[1])
-# infile = paste0(filestub,&quot;_cplass.rds&quot;)
-outfile = paste0(filestub,&quot;_gallery.pdf&quot;)
-# path_list = readRDS(infile)
+<pre class="r"><code># path_list = readRDS(here(&quot;data&quot;,&quot;CPLASS_MTEB1_1st.rds&quot;))
+# #######################
+# # for REAL DATA use the lines below.
+# file_list = c(&quot;MTEB1-1st&quot;)
+# filestub = paste0(&quot;figures/Real&quot;,file_list[1])
+# # infile = paste0(filestub,&quot;_cplass.rds&quot;)
+# outfile = paste0(filestub,&quot;_gallery.pdf&quot;)
+# # path_list = readRDS(infile)
+# # 
+# motor = &quot;MTEB1-1st&quot; #change the name to the name of your data
 # 
-motor = &quot;MTEB1-1st&quot; #change the name to the name of your data
-
-#######################
-# #for SIMULATED DATA use the lines below.
-# filestub = paste0(&quot;OFR Final/Sim&quot;,experiment_num,&quot;_&quot;,theta$motor,&quot;_&quot;,Hz,&quot;Hz_cplass_&quot;,sp)
-# infile = paste0(filestub,&quot;.rds&quot;)
-# outfile = paste0(filestub,&quot;_gallery_&quot;,sp,&quot;.pdf&quot;)
-# path_list = readRDS(infile)
+# #######################
+# # #for SIMULATED DATA use the lines below.
+# # filestub = paste0(&quot;OFR Final/Sim&quot;,experiment_num,&quot;_&quot;,theta$motor,&quot;_&quot;,Hz,&quot;Hz_cplass_&quot;,sp)
+# # infile = paste0(filestub,&quot;.rds&quot;)
+# # outfile = paste0(filestub,&quot;_gallery_&quot;,sp,&quot;.pdf&quot;)
+# # path_list = readRDS(infile)
+# # 
+# # if(theta$motor == &quot;CKP&quot;){
+# #     motor = &quot;Base&quot;
+# #   }else if(theta$motor == &quot;kin1&quot;){
+# #     motor = &quot;Contrast&quot;
+# #   }else if(theta$motor == &quot;Mimic&quot;){
+# #     motor = &quot;Mimic&quot;
+# # }
 # 
-# if(theta$motor == &quot;CKP&quot;){
-#     motor = &quot;Base&quot;
-#   }else if(theta$motor == &quot;kin1&quot;){
-#     motor = &quot;Contrast&quot;
-#   }else if(theta$motor == &quot;Mimic&quot;){
-#     motor = &quot;Mimic&quot;
+# 
+# pdf_output = TRUE
+# 
+# if (pdf_output == TRUE){
+#   pdf(outfile,onefile = TRUE,width=7,height=5)
 # }
-
-
-pdf_output = TRUE
-
-if (pdf_output == TRUE){
-  pdf(outfile,onefile = TRUE,width=7,height=5)
-}
-
-dist_max = c()
-t_max = c()
-speed_max = c()
-
-for (i in 1:length(path_list)){
-  if (i %% 20 == 0){
-    print(paste(&quot;Working on path&quot;,i))
-  }
-  path = path_list[[i]]$path_inferred
-  segments = path_list[[i]]$segments_inferred
-  speed_max = c(speed_max,max(path_list[[i]]$segments_inferred$speeds))
-  
-  dist_max = c(dist_max,max(c(max(path$x)-min(path$x)),
-                            max((path$y)-min(path$y))))
-  t_max = c(t_max,max(path$t) - min(path$t))
-}</code></pre>
-<pre><code>[1] &quot;Working on path 20&quot;</code></pre>
-<pre class="r"><code>xy_width = 1.2*max(dist_max)
-# t_lim = c(0,ceiling(max(t_max)))
-t_lim = c(0,150)
-max_speed = ceiling(max(speed_max))
-
-for (i in 1:length(path_list)){
-  if (i %% 20 == 0){
-    print(paste(&quot;Working on path&quot;,i))
-  }
-  
-  # #REAL DATA PLOTS (dashboard)
-  # dashboard = plot_path_real(path_list[[i]],xy_width,t_lim)
-  # print(dashboard)
-
-  # SIMULATION PLOTS (dashboard)
-  dashboard = plot_path_inferred_fill_in(path_list[[i]],xy_width,t_lim, motor, max_speed, branch_points = branch_points)
-  print(dashboard)
-
-  # SIMULATION PLOTS (only x-y plot)
-  # plot_xy = plot_path_inferred_xy(path_list[[i]],xy_width,t_lim, motor, max_speed)
-  # print(plot_xy)
-  
-}</code></pre>
-<pre><code>[1] &quot;Working on path 20&quot;</code></pre>
-<pre class="r"><code>if (pdf_output == TRUE){
-  dev.off()
-}</code></pre>
-<pre><code>quartz_off_screen 
-                2 </code></pre>
+# 
+# dist_max = c()
+# t_max = c()
+# speed_max = c()
+# 
+# for (i in 1:length(path_list)){
+#   if (i %% 20 == 0){
+#     print(paste(&quot;Working on path&quot;,i))
+#   }
+#   path = path_list[[i]]$path_inferred
+#   segments = path_list[[i]]$segments_inferred
+#   speed_max = c(speed_max,max(path_list[[i]]$segments_inferred$speeds))
+#   
+#   dist_max = c(dist_max,max(c(max(path$x)-min(path$x)),
+#                             max((path$y)-min(path$y))))
+#   t_max = c(t_max,max(path$t) - min(path$t))
+# }
+# xy_width = 1.2*max(dist_max)
+# # t_lim = c(0,ceiling(max(t_max)))
+# t_lim = c(0,150)
+# max_speed = ceiling(max(speed_max))
+# 
+# for (i in 1:length(path_list)){
+#   if (i %% 20 == 0){
+#     print(paste(&quot;Working on path&quot;,i))
+#   }
+#   
+#   # #REAL DATA PLOTS (dashboard)
+#   # dashboard = plot_path_real(path_list[[i]],xy_width,t_lim)
+#   # print(dashboard)
+# 
+#   # SIMULATION PLOTS (dashboard)
+#   dashboard = plot_path_inferred_fill_in(path_list[[i]],xy_width,t_lim, motor, max_speed, branch_points = branch_points)
+#   print(dashboard)
+# 
+#   # SIMULATION PLOTS (only x-y plot)
+#   # plot_xy = plot_path_inferred_xy(path_list[[i]],xy_width,t_lim, motor, max_speed)
+#   # print(plot_xy)
+#   
+# }
+# 
+# if (pdf_output == TRUE){
+#   dev.off()
+# }</code></pre>
 </div>
 </div>
 <div id="second-approach" class="section level1">
@@ -1078,7 +1081,6 @@ times.</p></li>
 show the stationary segments.</p></li>
 </ul>
 <pre class="r"><code>path_list = readRDS(here(&quot;data&quot;,&quot;CPLASS_MTEB1_2nd.rds&quot;))
-setwd(&quot;~/Documents/Prof Scott/MT EB1 Data/MTEB1Data/analysis&quot;)
 #######################
 # for REAL DATA use the lines below.
 file_list = c(&quot;MTEB1-2nd&quot;)
@@ -1263,85 +1265,82 @@ Ldo3
 </table>
 </div>
 </div>
-<pre class="r"><code>path_list = readRDS(here(&quot;data&quot;,&quot;CPLASS_MTEB1_2nd.rds&quot;))
-setwd(&quot;~/Documents/Prof Scott/MT EB1 Data/MTEB1Data/analysis&quot;)
-#######################
-# for REAL DATA use the lines below.
-file_list = c(&quot;MTEB1-2nd&quot;)
-filestub = paste0(&quot;figures/Real&quot;,file_list[1])
-# infile = paste0(filestub,&quot;_cplass.rds&quot;)
-outfile = paste0(filestub,&quot;_gallery.pdf&quot;)
-# path_list = readRDS(infile)
+<pre class="r"><code># path_list = readRDS(here(&quot;data&quot;,&quot;CPLASS_MTEB1_2nd.rds&quot;))
+# #######################
+# # for REAL DATA use the lines below.
+# file_list = c(&quot;MTEB1-2nd&quot;)
+# filestub = paste0(&quot;figures/Real&quot;,file_list[1])
+# # infile = paste0(filestub,&quot;_cplass.rds&quot;)
+# outfile = paste0(filestub,&quot;_gallery.pdf&quot;)
+# # path_list = readRDS(infile)
+# # 
+# motor = &quot;MTEB1-2nd&quot; #change the name to the name of your data
 # 
-motor = &quot;MTEB1-2nd&quot; #change the name to the name of your data
-
-#######################
-# #for SIMULATED DATA use the lines below.
-# filestub = paste0(&quot;OFR Final/Sim&quot;,experiment_num,&quot;_&quot;,theta$motor,&quot;_&quot;,Hz,&quot;Hz_cplass_&quot;,sp)
-# infile = paste0(filestub,&quot;.rds&quot;)
-# outfile = paste0(filestub,&quot;_gallery_&quot;,sp,&quot;.pdf&quot;)
-# path_list = readRDS(infile)
+# #######################
+# # #for SIMULATED DATA use the lines below.
+# # filestub = paste0(&quot;OFR Final/Sim&quot;,experiment_num,&quot;_&quot;,theta$motor,&quot;_&quot;,Hz,&quot;Hz_cplass_&quot;,sp)
+# # infile = paste0(filestub,&quot;.rds&quot;)
+# # outfile = paste0(filestub,&quot;_gallery_&quot;,sp,&quot;.pdf&quot;)
+# # path_list = readRDS(infile)
+# # 
+# # if(theta$motor == &quot;CKP&quot;){
+# #     motor = &quot;Base&quot;
+# #   }else if(theta$motor == &quot;kin1&quot;){
+# #     motor = &quot;Contrast&quot;
+# #   }else if(theta$motor == &quot;Mimic&quot;){
+# #     motor = &quot;Mimic&quot;
+# # }
 # 
-# if(theta$motor == &quot;CKP&quot;){
-#     motor = &quot;Base&quot;
-#   }else if(theta$motor == &quot;kin1&quot;){
-#     motor = &quot;Contrast&quot;
-#   }else if(theta$motor == &quot;Mimic&quot;){
-#     motor = &quot;Mimic&quot;
+# 
+# pdf_output = TRUE
+# 
+# if (pdf_output == TRUE){
+#   pdf(outfile,onefile = TRUE,width=7,height=5)
 # }
-
-
-pdf_output = TRUE
-
-if (pdf_output == TRUE){
-  pdf(outfile,onefile = TRUE,width=7,height=5)
-}
-
-dist_max = c()
-t_max = c()
-speed_max = c()
-
-for (i in 1:length(path_list)){
-  if (i %% 20 == 0){
-    print(paste(&quot;Working on path&quot;,i))
-  }
-  path = path_list[[i]]$path_inferred
-  segments = path_list[[i]]$segments_inferred
-  speed_max = c(speed_max,max(path_list[[i]]$segments_inferred$speeds))
-  
-  dist_max = c(dist_max,max(c(max(path$x)-min(path$x)),
-                            max((path$y)-min(path$y))))
-  t_max = c(t_max,max(path$t) - min(path$t))
-}
-xy_width = 1.2*max(dist_max)
-# t_lim = c(0,ceiling(max(t_max)))
-t_lim = c(0,150)
-max_speed = ceiling(max(speed_max))
-
-for (i in 1:length(path_list)){
-  if (i %% 20 == 0){
-    print(paste(&quot;Working on path&quot;,i))
-  }
-  
-  # #REAL DATA PLOTS (dashboard)
-  # dashboard = plot_path_real(path_list[[i]],xy_width,t_lim)
-  # print(dashboard)
-
-  # SIMULATION PLOTS (dashboard)
-  dashboard = plot_path_inferred_fill_in(path_list[[i]],xy_width,t_lim, motor, max_speed, branch_points = branch_points)
-  print(dashboard)
-
-  # SIMULATION PLOTS (only x-y plot)
-  # plot_xy = plot_path_inferred_xy(path_list[[i]],xy_width,t_lim, motor, max_speed)
-  # print(plot_xy)
-  
-}
-
-if (pdf_output == TRUE){
-  dev.off()
-}</code></pre>
-<pre><code>quartz_off_screen 
-                2 </code></pre>
+# 
+# dist_max = c()
+# t_max = c()
+# speed_max = c()
+# 
+# for (i in 1:length(path_list)){
+#   if (i %% 20 == 0){
+#     print(paste(&quot;Working on path&quot;,i))
+#   }
+#   path = path_list[[i]]$path_inferred
+#   segments = path_list[[i]]$segments_inferred
+#   speed_max = c(speed_max,max(path_list[[i]]$segments_inferred$speeds))
+#   
+#   dist_max = c(dist_max,max(c(max(path$x)-min(path$x)),
+#                             max((path$y)-min(path$y))))
+#   t_max = c(t_max,max(path$t) - min(path$t))
+# }
+# xy_width = 1.2*max(dist_max)
+# # t_lim = c(0,ceiling(max(t_max)))
+# t_lim = c(0,150)
+# max_speed = ceiling(max(speed_max))
+# 
+# for (i in 1:length(path_list)){
+#   if (i %% 20 == 0){
+#     print(paste(&quot;Working on path&quot;,i))
+#   }
+#   
+#   # #REAL DATA PLOTS (dashboard)
+#   # dashboard = plot_path_real(path_list[[i]],xy_width,t_lim)
+#   # print(dashboard)
+# 
+#   # SIMULATION PLOTS (dashboard)
+#   dashboard = plot_path_inferred_fill_in(path_list[[i]],xy_width,t_lim, motor, max_speed, branch_points = branch_points)
+#   print(dashboard)
+# 
+#   # SIMULATION PLOTS (only x-y plot)
+#   # plot_xy = plot_path_inferred_xy(path_list[[i]],xy_width,t_lim, motor, max_speed)
+#   # print(plot_xy)
+#   
+# }
+# 
+# if (pdf_output == TRUE){
+#   dev.off()
+# }</code></pre>
 </div>
 </div>
 <div id="run-csa-for-both-approaches" class="section level1">
