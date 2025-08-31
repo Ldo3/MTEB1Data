@@ -1,14 +1,14 @@
-name: "MTEB1Data"
+name: MTEB1Data
 output_dir: ../docs
 navbar:
-  title: "MTEB1Data"
+  title: Movement analysis on the MTEB1 Data
   left:
-  - text: Home
+  - text: Overview
     href: index.html
-  - text: About
-    href: about.html
-  - text: License
-    href: license.html
+  right:
+  - icon: fab fa-github
+    text: Source code
+    href: https://github.com/Ldo3/MTEB1Data
 output:
   workflowr::wflow_html:
     toc: yes
