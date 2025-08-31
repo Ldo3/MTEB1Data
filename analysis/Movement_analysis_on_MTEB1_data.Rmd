@@ -1,0 +1,542 @@
+---
+title: "Movement analysis on MTEB1_data"
+output:
+  workflowr::wflow_html:
+    toc: true
+    toc_float: true
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+After preprocessing the video and run TrackMate on ImageJ to get the tracks and `.csv` files on the positions of branch points and positions of tracked points, we run analysis on these collected information to study the movement of things on the microtuble. 
+
++ Run CPLASS algorithm to get the segmented paths.
+
++ Run CSA algorithm to learn on distribution of inferred speeds.
+
+*Note* The output from TrackMate contains lot of tracks. We notice an issue that some tracks may be accidently splited in small tracks due to the difficulty in observing the movement of materials on the microtubles, i.e., some blobs disappear for a while then appear again. This issue also leads to missing data points.
+
+There are two approaches that we want to note in this report.
+
++ First approach: Keep all the tracks output from TrackMate
+
++ Second approach: Use a merging rule to merge the tracks that are close to each other. 
+
+For both approaches, the analysis procedure is
+
++ Run segmentation algorithm CPLASS to get the segmented path, inferred speed and time.
+
++ Run CSA algorithm to get the speed analysis.
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+library(here)
+library("Rlab")
+library("matrixcalc")
+library("pracma")
+library("matrixcalc")
+library("limSolve")
+library("tidyverse")
+library("ggplot2")
+library("patchwork")
+library("foreach")
+library("doParallel")
+library(igraph)
+library(readr)
+source(here("code","PENALTY.R"))
+source(here("code", "CPLASS.R"))
+source(here("code", "plot_functions.R"))
+source(here("code", "csa_functions.R"))
+```
+
+Here is the data after running TrackMate/ImageJ
+
+```{r load_data, message=FALSE}
+
+data <- read_csv(here("data","processed_spots.csv"))
+df = data %>% select(ID,TRACK_ID, POSITION_X, POSITION_Y, POSITION_T)
+df <- df[-c(1:3), ]
+df[] <- lapply(df, as.numeric)
+head(df)
+
+branch_points <- read_csv(here("data","branch_points.csv"), 
+    col_types = cols(x = col_number(), y = col_number()))
+```
+
+# 1. First approach
+
+```{r}
+first = list()
+list_tracks = unique(df$TRACK_ID)
+for (i in 1:length(unique(df$TRACK_ID)))
+{
+
+  subdf = df %>% filter(TRACK_ID == list_tracks[i])
+
+# sort by POSITION_T
+subdf = subdf %>% arrange(POSITION_T)
+
+first[[i]] = list(
+  t = subdf$POSITION_T,
+  x = subdf$POSITION_X,
+  y = subdf$POSITION_Y,
+  track_id = subdf$TRACK_ID
+)
+
+}
+
+af_first = list()
+for(i in 1:length(first))
+{
+  path = first[[i]]
+  t = path$t
+  x = path$x
+  y = path$y
+  track_id = path$track_id
+  af_first[[i]] = fill_missing_data(t,x,y, unique(track_id))
+}
+# saveRDS(af_first,here("data","first_approach_data.rds"))
+```
+
+## 1.1. Run CPLASS to get segmented paths
+```{r 1st approach - run CPLASS}
+# cplass_paths = CPLASS_paths(af_first, time_rate = 1,iter_max = 4000, PARALLEL = FALSE, speed_pen = FALSE)
+# saveRDS(cplass_paths,file="data/CPLASS_MTEB1_1st.rds")
+```
+
+## 1.2. Visualization
+
+We will have some plots for the two tracks here. For the full gallary, please visit `analysis/figures`.
+
+*Note*:
+
++ the black dashed-lines are for detected changepoint times.
+
++ The triangle blue dots are for the branch points.
+
++ The red dots are for the fill-in position.
+
++ The green areas show the motile segments while the pink areas show the stationary segments.
+
+
+```{r plot 2 track 1st, warning=FALSE}
+path_list = readRDS(here("data","CPLASS_MTEB1_1st.rds"))
+setwd("~/Documents/Prof Scott/MT EB1 Data/MTEB1Data/analysis")
+#######################
+motor = "MTEB1-1st" #change the name to the name of your data
+dist_max = c()
+t_max = c()
+speed_max = c()
+
+for (i in c(1,6)){
+  path = path_list[[i]]$path_inferred
+  segments = path_list[[i]]$segments_inferred
+  speed_max = c(speed_max,max(path_list[[i]]$segments_inferred$speeds))
+  
+  dist_max = c(dist_max,max(c(max(path$x)-min(path$x)),
+                            max((path$y)-min(path$y))))
+  t_max = c(t_max,max(path$t) - min(path$t))
+}
+xy_width = 1.2*max(dist_max)
+# t_lim = c(0,ceiling(max(t_max)))
+t_lim = c(0,150)
+max_speed = ceiling(max(speed_max))
+
+for (i in c(1,6))
+{
+dashboard = plot_path_inferred_fill_in(path_list[[i]],xy_width,t_lim, motor, max_speed, branch_points = branch_points)
+  print(dashboard)
+}
+```
+
+```{r visualize the output 1st, warning =FALSE}
+path_list = readRDS(here("data","CPLASS_MTEB1_1st.rds"))
+setwd("~/Documents/Prof Scott/MT EB1 Data/MTEB1Data/analysis")
+#######################
+# for REAL DATA use the lines below.
+file_list = c("MTEB1-1st")
+filestub = paste0("figures/Real",file_list[1])
+# infile = paste0(filestub,"_cplass.rds")
+outfile = paste0(filestub,"_gallery.pdf")
+# path_list = readRDS(infile)
+# 
+motor = "MTEB1-1st" #change the name to the name of your data
+
+#######################
+# #for SIMULATED DATA use the lines below.
+# filestub = paste0("OFR Final/Sim",experiment_num,"_",theta$motor,"_",Hz,"Hz_cplass_",sp)
+# infile = paste0(filestub,".rds")
+# outfile = paste0(filestub,"_gallery_",sp,".pdf")
+# path_list = readRDS(infile)
+# 
+# if(theta$motor == "CKP"){
+#     motor = "Base"
+#   }else if(theta$motor == "kin1"){
+#     motor = "Contrast"
+#   }else if(theta$motor == "Mimic"){
+#     motor = "Mimic"
+# }
+
+
+pdf_output = TRUE
+
+if (pdf_output == TRUE){
+  pdf(outfile,onefile = TRUE,width=7,height=5)
+}
+
+dist_max = c()
+t_max = c()
+speed_max = c()
+
+for (i in 1:length(path_list)){
+  if (i %% 20 == 0){
+    print(paste("Working on path",i))
+  }
+  path = path_list[[i]]$path_inferred
+  segments = path_list[[i]]$segments_inferred
+  speed_max = c(speed_max,max(path_list[[i]]$segments_inferred$speeds))
+  
+  dist_max = c(dist_max,max(c(max(path$x)-min(path$x)),
+                            max((path$y)-min(path$y))))
+  t_max = c(t_max,max(path$t) - min(path$t))
+}
+xy_width = 1.2*max(dist_max)
+# t_lim = c(0,ceiling(max(t_max)))
+t_lim = c(0,150)
+max_speed = ceiling(max(speed_max))
+
+for (i in 1:length(path_list)){
+  if (i %% 20 == 0){
+    print(paste("Working on path",i))
+  }
+  
+  # #REAL DATA PLOTS (dashboard)
+  # dashboard = plot_path_real(path_list[[i]],xy_width,t_lim)
+  # print(dashboard)
+
+  # SIMULATION PLOTS (dashboard)
+  dashboard = plot_path_inferred_fill_in(path_list[[i]],xy_width,t_lim, motor, max_speed, branch_points = branch_points)
+  print(dashboard)
+
+  # SIMULATION PLOTS (only x-y plot)
+  # plot_xy = plot_path_inferred_xy(path_list[[i]],xy_width,t_lim, motor, max_speed)
+  # print(plot_xy)
+  
+}
+
+if (pdf_output == TRUE){
+  dev.off()
+}
+```
+
+# 2. Second approach
+
+A path $j$ is considered as a potential candidate to merge to the $i$th-path if: $t_{end}$ of $i$th-path $< t_{start}$ of $j$th-path. For all potential candidates, calculate the Euclidean distance between the endpoint of path $i$ and the start point of path $j$, i.e., 
+$$\sqrt{(x_{i_{end}}-x_{j_{start}})^2+(y_{i_{end}}-y_{j_{start}})^2}$$
+Among those candidates, select the one with the minimum distance value. Return the final candidate to merge. In the final round, we look at the video to confirm which case looks like a good merge. 
+
+
+With this strategy, we return 18 paths. The following shows the index of merged tracks corresponding to each path. For example, path 1 in this second approach is the output after merging TRACK 0 and TRACK 73.
+
+```{r merged chains}
+
+oam = readRDS(here("data","original_tracks_after_merging.rds"))
+chains = list()
+for (i in 1:length(oam))
+{
+  chains[[i]] = unique(oam[[i]]$TRACK_ID)
+}
+# Build edges from consecutive nodes in each chain
+edges <- do.call(rbind, lapply(chains, function(chain) {
+  if (length(chain) > 1) {
+    cbind(head(as.character(chain), -1),
+          tail(as.character(chain), -1))
+  } else NULL
+}))
+
+g <- graph_from_edgelist(edges, directed = TRUE)
+
+plot(g,
+     vertex.size = 17,
+     vertex.label.cex = 1,
+     vertex.color = "skyblue",
+     edge.width = 2,            # make edges thicker
+     edge.color = "darkred",    # change edge color
+     edge.arrow.size = 1,     # make arrows bigger
+     layout = layout_with_fr)
+
+```
+There are missing time steps, we need to fill in those missing
+
+```{r 2nd approach - fill-in}
+af = list() #after fill-in
+for (i in 1:length(oam))
+{
+  t = oam[[i]]$POSITION_T
+  x = oam[[i]]$POSITION_X
+  y = oam[[i]]$POSITION_Y
+  track_id = unique(oam[[i]]$TRACK_ID)
+  af[[i]] = fill_missing_data(t,x,y,track_id = track_id)
+}
+# saveRDS(af,here("data","second_approach_data.rds"))
+```
+
+## 2.1. Run CPLASS
+
+```{r 2nd approach - run CPLASS}
+# cplass_paths = CPLASS_paths(af, time_rate = 1,iter_max = 4000, PARALLEL = FALSE, speed_pen = FALSE)
+# saveRDS(cplass_paths,file="data/CPLASS_MTEB1_2nd.rds")
+```
+
+## 2.2. Visualization
+
+We will have some plots for some tracks here. For the full gallary, please visit `analysis/figures`.
+
+*Note*:
+
++ the black dashed-lines are for detected changepoint times.
+
++ The triangle blue dots are for the branch points.
+
++ The red dots are for the fill-in position.
+
++ The green areas show the motile segments while the pink areas show the stationary segments.
+
+```{r plot 2 track 2nd, warning=FALSE}
+path_list = readRDS(here("data","CPLASS_MTEB1_2nd.rds"))
+setwd("~/Documents/Prof Scott/MT EB1 Data/MTEB1Data/analysis")
+#######################
+# for REAL DATA use the lines below.
+file_list = c("MTEB1-2nd")
+filestub = paste0("figures/Real",file_list[1])
+# infile = paste0(filestub,"_cplass.rds")
+outfile = paste0(filestub,"_gallery.pdf")
+# path_list = readRDS(infile)
+# 
+motor = "MTEB1-2nd" #change the name to the name of your data
+dist_max = c()
+t_max = c()
+speed_max = c()
+
+for (i in c(1,3,5,10)){
+  path = path_list[[i]]$path_inferred
+  segments = path_list[[i]]$segments_inferred
+  speed_max = c(speed_max,max(path_list[[i]]$segments_inferred$speeds))
+  
+  dist_max = c(dist_max,max(c(max(path$x)-min(path$x)),
+                            max((path$y)-min(path$y))))
+  t_max = c(t_max,max(path$t) - min(path$t))
+}
+xy_width = 1.2*max(dist_max)
+# t_lim = c(0,ceiling(max(t_max)))
+t_lim = c(0,150)
+max_speed = ceiling(max(speed_max))
+
+for (i in c(1,3,5,10))
+{
+dashboard = plot_path_inferred_fill_in(path_list[[i]],xy_width,t_lim, motor, max_speed, branch_points = branch_points)
+  print(dashboard)
+}
+```
+
+```{r visualize the output 2nd, warning =FALSE}
+path_list = readRDS(here("data","CPLASS_MTEB1_2nd.rds"))
+setwd("~/Documents/Prof Scott/MT EB1 Data/MTEB1Data/analysis")
+#######################
+# for REAL DATA use the lines below.
+file_list = c("MTEB1-2nd")
+filestub = paste0("figures/Real",file_list[1])
+# infile = paste0(filestub,"_cplass.rds")
+outfile = paste0(filestub,"_gallery.pdf")
+# path_list = readRDS(infile)
+# 
+motor = "MTEB1-2nd" #change the name to the name of your data
+
+#######################
+# #for SIMULATED DATA use the lines below.
+# filestub = paste0("OFR Final/Sim",experiment_num,"_",theta$motor,"_",Hz,"Hz_cplass_",sp)
+# infile = paste0(filestub,".rds")
+# outfile = paste0(filestub,"_gallery_",sp,".pdf")
+# path_list = readRDS(infile)
+# 
+# if(theta$motor == "CKP"){
+#     motor = "Base"
+#   }else if(theta$motor == "kin1"){
+#     motor = "Contrast"
+#   }else if(theta$motor == "Mimic"){
+#     motor = "Mimic"
+# }
+
+
+pdf_output = TRUE
+
+if (pdf_output == TRUE){
+  pdf(outfile,onefile = TRUE,width=7,height=5)
+}
+
+dist_max = c()
+t_max = c()
+speed_max = c()
+
+for (i in 1:length(path_list)){
+  if (i %% 20 == 0){
+    print(paste("Working on path",i))
+  }
+  path = path_list[[i]]$path_inferred
+  segments = path_list[[i]]$segments_inferred
+  speed_max = c(speed_max,max(path_list[[i]]$segments_inferred$speeds))
+  
+  dist_max = c(dist_max,max(c(max(path$x)-min(path$x)),
+                            max((path$y)-min(path$y))))
+  t_max = c(t_max,max(path$t) - min(path$t))
+}
+xy_width = 1.2*max(dist_max)
+# t_lim = c(0,ceiling(max(t_max)))
+t_lim = c(0,150)
+max_speed = ceiling(max(speed_max))
+
+for (i in 1:length(path_list)){
+  if (i %% 20 == 0){
+    print(paste("Working on path",i))
+  }
+  
+  # #REAL DATA PLOTS (dashboard)
+  # dashboard = plot_path_real(path_list[[i]],xy_width,t_lim)
+  # print(dashboard)
+
+  # SIMULATION PLOTS (dashboard)
+  dashboard = plot_path_inferred_fill_in(path_list[[i]],xy_width,t_lim, motor, max_speed, branch_points = branch_points)
+  print(dashboard)
+
+  # SIMULATION PLOTS (only x-y plot)
+  # plot_xy = plot_path_inferred_xy(path_list[[i]],xy_width,t_lim, motor, max_speed)
+  # print(plot_xy)
+  
+}
+
+if (pdf_output == TRUE){
+  dev.off()
+}
+```
+
+# Run CSA for both approaches
+
+```{r FIGURE: CSA Theory}
+pdf_output = TRUE
+
+real_data_not_merged_file = c(here("data","CPLASS_MTEB1_1st.rds"))
+real_data_merged_file = c(here("data","CPLASS_MTEB1_2nd.rds"))
+
+real_path_not_merged_list = readRDS(real_data_not_merged_file)
+real_path_merged_list = readRDS(real_data_merged_file)
+
+
+cohort_list = c("MTEB1: 1st approach", 
+                "MTEB1: 2nd approach")
+color_list = c("MTEB1: 1st approach" = "grey", 
+               "MTEB1: 2nd approach" = "lightblue") 
+
+pdf_output = TRUE
+
+
+##### Create Segment Summary ####
+segment_summary = summarize_segments_inferred(real_path_not_merged_list,cohort_list[1])
+segment_summary = bind_rows(segment_summary,
+                            summarize_segments(real_path_merged_list,cohort_list[2]))
+
+max_speed = min(15,max(segment_summary$speeds))
+
+# Assumes theta is the same for all frame rates involved
+speed_mesh = seq(0,max_speed,length = 200)
+ds = speed_mesh[2] - speed_mesh[1]
+subsample_size = 200
+num_subsamples = 30
+
+csa = tibble()
+#### Bootstrap CSA for Real Data 1st approach ####
+for (m in 1:num_subsamples){
+    subsample = sample(1:length(real_path_not_merged_list),subsample_size,replace = TRUE)
+    path_subsample = list()
+    for (i in 1:length(subsample)){
+      path_subsample[[i]] = real_path_not_merged_list[[subsample[i]]]
+    }
+    this_segments_summary = summarize_segments_inferred(path_subsample,"Sample")
+    this_csa = compute_csa(this_segments_summary, speed_mesh)$csa
+    csa = bind_rows(csa,
+                tibble(
+                  s = speed_mesh,
+                  csa = this_csa,
+                  dcsa = c(diff(this_csa)/ds,0),
+                  error = NA,
+                  error_pct = NA,
+                  label = cohort_list[1],
+                  Hz = NA,
+                  subsample = m
+                ))
+}
+
+
+#### Bootstrap CSA for Real Data 2nd approach ####
+for (m in 1:num_subsamples){
+    subsample = sample(1:length(real_path_merged_list),subsample_size,replace = TRUE)
+    path_subsample = list()
+    for (i in 1:length(subsample)){
+      path_subsample[[i]] = real_path_merged_list[[subsample[i]]]
+    }
+    this_segments_summary = summarize_segments_inferred(path_subsample,"Sample")
+    this_csa = compute_csa(this_segments_summary, speed_mesh)$csa
+    csa = bind_rows(csa,
+                tibble(
+                  s = speed_mesh,
+                  csa = this_csa,
+                  dcsa = c(diff(this_csa)/ds,0),
+                  error = NA,
+                  error_pct = NA,
+                  label = cohort_list[2],
+                  Hz = NA,
+                  subsample = m
+                ))
+}
+
+
+csa = csa %>% mutate(cohort = paste(label,subsample))
+
+
+p_csa = ggplot(csa %>% filter(label == cohort_list[1] | 
+                                      label == cohort_list[2]))+
+  geom_line(aes(x = s, y = csa, col = label, group = cohort))+
+  ggtitle("MTEB1")+
+  ylab("Cumulative Speed Allocation")+xlab(expression(paste("Speed (",mu,"m/sec)")))+
+  scale_color_manual(values = color_list)+
+  theme_minimal()
+# +
+  # theme(legend.position = "none")
+
+print(p_csa)
+
+```
+
+```{r kernel density estimation - speed distribution}
+
+speed_df1 = segment_summary%>% filter(label=="MTEB1: 1st approach")
+speed_df2 = segment_summary%>% filter(label=="MTEB1: 2nd approach")
+
+print("The highest speed value in the first approach is")
+speed_df1%>% filter(speeds ==max(speeds))
+
+print("The highest speed value in the second approach is")
+speed_df2%>% filter(speeds ==max(speeds))
+
+ggplot(segment_summary, aes(x = speeds, fill = label)) +
+  geom_density(alpha = 0.4) +
+  labs(title = "KDE of inferred speed in different approaches", x = "Speed (mu/s)", y = "Density") +
+  theme_minimal()
+```
+
+From the CSA plot, the second approach provide more segments will speed between 0 -5 $\mu m/s$ than in the first approach. 
+
+Merged tracks in the second approach provide us clearer picture where a blob pass branch points, e.g., paths we plotted above.
+
+We also want to point out that CPLASS does not work well with too short path such as 10-20 time steps (see the plot gallery for the first approach), i.e., for too short path, the algorithm will detect a lot of changepoints. In the CPLASS, we discussed the consistency theory of CPLASS when we have the sample size is large enough.
