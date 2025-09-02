@@ -122,7 +122,7 @@ We will have some plots for the two tracks here. For the full gallary, please vi
 
 
 ```{r plot 2 track 1st, warning=FALSE}
-path_list = readRDS(here("data","CPLASS_MTEB1_1st.rds"))
+path_list = readRDS(here("data","CPLASS_MTEB1_1st_1.rds"))
 #######################
 motor = "MTEB1-1st" #change the name to the name of your data
 dist_max = c()
@@ -151,15 +151,15 @@ dashboard = plot_path_inferred_fill_in(path_list[[i]],xy_width,t_lim, motor, max
 ```
 
 ```{r visualize the output 1st, warning =FALSE}
-# path_list = readRDS(here("data","CPLASS_MTEB1_1st.rds"))
+# path_list = readRDS(here("data","CPLASS_MTEB1_1st_1.rds"))
 # #######################
 # # for REAL DATA use the lines below.
 # file_list = c("MTEB1-1st")
 # filestub = paste0("figures/Real",file_list[1])
 # # infile = paste0(filestub,"_cplass.rds")
-# outfile = paste0(filestub,"_gallery.pdf")
+# outfile = paste0(filestub,"_gallery_1.pdf")
 # # path_list = readRDS(infile)
-# # 
+# #
 # motor = "MTEB1-1st" #change the name to the name of your data
 # 
 # #######################
@@ -168,7 +168,7 @@ dashboard = plot_path_inferred_fill_in(path_list[[i]],xy_width,t_lim, motor, max
 # # infile = paste0(filestub,".rds")
 # # outfile = paste0(filestub,"_gallery_",sp,".pdf")
 # # path_list = readRDS(infile)
-# # 
+# #
 # # if(theta$motor == "CKP"){
 # #     motor = "Base"
 # #   }else if(theta$motor == "kin1"){
@@ -195,7 +195,7 @@ dashboard = plot_path_inferred_fill_in(path_list[[i]],xy_width,t_lim, motor, max
 #   path = path_list[[i]]$path_inferred
 #   segments = path_list[[i]]$segments_inferred
 #   speed_max = c(speed_max,max(path_list[[i]]$segments_inferred$speeds))
-#   
+# 
 #   dist_max = c(dist_max,max(c(max(path$x)-min(path$x)),
 #                             max((path$y)-min(path$y))))
 #   t_max = c(t_max,max(path$t) - min(path$t))
@@ -209,7 +209,7 @@ dashboard = plot_path_inferred_fill_in(path_list[[i]],xy_width,t_lim, motor, max
 #   if (i %% 20 == 0){
 #     print(paste("Working on path",i))
 #   }
-#   
+# 
 #   # #REAL DATA PLOTS (dashboard)
 #   # dashboard = plot_path_real(path_list[[i]],xy_width,t_lim)
 #   # print(dashboard)
@@ -221,7 +221,7 @@ dashboard = plot_path_inferred_fill_in(path_list[[i]],xy_width,t_lim, motor, max
 #   # SIMULATION PLOTS (only x-y plot)
 #   # plot_xy = plot_path_inferred_xy(path_list[[i]],xy_width,t_lim, motor, max_speed)
 #   # print(plot_xy)
-#   
+# 
 # }
 # 
 # if (pdf_output == TRUE){
@@ -303,13 +303,13 @@ We will have some plots for some tracks here. For the full gallary, please visit
 + The green areas show the motile segments while the pink areas show the stationary segments.
 
 ```{r plot 2 track 2nd, warning=FALSE}
-path_list = readRDS(here("data","CPLASS_MTEB1_2nd.rds"))
+path_list = readRDS(here("data","CPLASS_MTEB1_2nd_1.rds"))
 #######################
 # for REAL DATA use the lines below.
 file_list = c("MTEB1-2nd")
 filestub = paste0("figures/Real",file_list[1])
 # infile = paste0(filestub,"_cplass.rds")
-outfile = paste0(filestub,"_gallery.pdf")
+outfile = paste0(filestub,"_gallery_1.pdf")
 # path_list = readRDS(infile)
 # 
 motor = "MTEB1-2nd" #change the name to the name of your data
@@ -339,15 +339,15 @@ dashboard = plot_path_inferred_fill_in(path_list[[i]],xy_width,t_lim, motor, max
 ```
 
 ```{r visualize the output 2nd, warning =FALSE}
-# path_list = readRDS(here("data","CPLASS_MTEB1_2nd.rds"))
+# path_list = readRDS(here("data","CPLASS_MTEB1_2nd_1.rds"))
 # #######################
 # # for REAL DATA use the lines below.
 # file_list = c("MTEB1-2nd")
 # filestub = paste0("figures/Real",file_list[1])
 # # infile = paste0(filestub,"_cplass.rds")
-# outfile = paste0(filestub,"_gallery.pdf")
+# outfile = paste0(filestub,"_gallery_1.pdf")
 # # path_list = readRDS(infile)
-# # 
+# #
 # motor = "MTEB1-2nd" #change the name to the name of your data
 # 
 # #######################
@@ -356,7 +356,7 @@ dashboard = plot_path_inferred_fill_in(path_list[[i]],xy_width,t_lim, motor, max
 # # infile = paste0(filestub,".rds")
 # # outfile = paste0(filestub,"_gallery_",sp,".pdf")
 # # path_list = readRDS(infile)
-# # 
+# #
 # # if(theta$motor == "CKP"){
 # #     motor = "Base"
 # #   }else if(theta$motor == "kin1"){
@@ -383,7 +383,7 @@ dashboard = plot_path_inferred_fill_in(path_list[[i]],xy_width,t_lim, motor, max
 #   path = path_list[[i]]$path_inferred
 #   segments = path_list[[i]]$segments_inferred
 #   speed_max = c(speed_max,max(path_list[[i]]$segments_inferred$speeds))
-#   
+# 
 #   dist_max = c(dist_max,max(c(max(path$x)-min(path$x)),
 #                             max((path$y)-min(path$y))))
 #   t_max = c(t_max,max(path$t) - min(path$t))
@@ -397,7 +397,7 @@ dashboard = plot_path_inferred_fill_in(path_list[[i]],xy_width,t_lim, motor, max
 #   if (i %% 20 == 0){
 #     print(paste("Working on path",i))
 #   }
-#   
+# 
 #   # #REAL DATA PLOTS (dashboard)
 #   # dashboard = plot_path_real(path_list[[i]],xy_width,t_lim)
 #   # print(dashboard)
@@ -409,7 +409,7 @@ dashboard = plot_path_inferred_fill_in(path_list[[i]],xy_width,t_lim, motor, max
 #   # SIMULATION PLOTS (only x-y plot)
 #   # plot_xy = plot_path_inferred_xy(path_list[[i]],xy_width,t_lim, motor, max_speed)
 #   # print(plot_xy)
-#   
+# 
 # }
 # 
 # if (pdf_output == TRUE){
@@ -422,8 +422,8 @@ dashboard = plot_path_inferred_fill_in(path_list[[i]],xy_width,t_lim, motor, max
 ```{r FIGURE: CSA Theory}
 pdf_output = TRUE
 
-real_data_not_merged_file = c(here("data","CPLASS_MTEB1_1st.rds"))
-real_data_merged_file = c(here("data","CPLASS_MTEB1_2nd.rds"))
+real_data_not_merged_file = c(here("data","CPLASS_MTEB1_1st_1.rds"))
+real_data_merged_file = c(here("data","CPLASS_MTEB1_2nd_1.rds"))
 
 real_path_not_merged_list = readRDS(real_data_not_merged_file)
 real_path_merged_list = readRDS(real_data_merged_file)
@@ -504,7 +504,9 @@ p_csa = ggplot(csa %>% filter(label == cohort_list[1] |
                                       label == cohort_list[2]))+
   geom_line(aes(x = s, y = csa, col = label, group = cohort))+
   ggtitle("MTEB1")+
-  ylab("Cumulative Speed Allocation")+xlab(expression(paste("Speed (",mu,"m/sec)")))+
+  ylab("Cumulative Speed Allocation")+
+  xlab("Speed (unknown unit)")+
+# +xlab(expression(paste("Speed (",mu,"m/sec)")))+
   scale_color_manual(values = color_list)+
   theme_minimal()
 # +
@@ -527,12 +529,10 @@ speed_df2%>% filter(speeds ==max(speeds))
 
 ggplot(segment_summary, aes(x = speeds, fill = label)) +
   geom_density(alpha = 0.4) +
-  labs(title = "KDE of inferred speed in different approaches", x = "Speed (mu/s)", y = "Density") +
+  labs(title = "KDE of inferred speed in different approaches", x = "Speed (unknown unit)", y = "Density") +
   theme_minimal()
 ```
 
-From the CSA plot, the second approach provide more segments will speed between 0 -5 $\mu m/s$ than in the first approach. 
+From the CSA plot, looking at the speed between 0 and 5, the blobs in the second approach spend more time at these speed values than those in the first approach.  
 
-Merged tracks in the second approach provide us clearer picture where a blob pass branch points, e.g., paths we plotted above.
-
-We also want to point out that CPLASS does not work well with too short path such as 10-20 time steps (see the plot gallery for the first approach), i.e., for too short path, the algorithm will detect a lot of changepoints. In the CPLASS, we discussed the consistency theory of CPLASS when we have the sample size is large enough.
+Merged tracks in the second approach provide a clearer picture of where a blob passes branch points, such as the paths we plotted above.
